@@ -1,0 +1,19 @@
+{
+  "name": "ebao-server",
+  "version": "1.0.0",
+  "description": "ebao server",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "wu.jiang",
+  "license": "MIT",
+  "dependencies": {
+    "bluebird": "^3.4.7",
+    "mongoose": "^4.7.5",
+    "nodemailer": "^0.7.1",
+    "qiniu": "^6.1.13",
+    "restify": "^4.3.0",
+    "uuid": "^3.0.1"
+  }
+}

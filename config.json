@@ -1,0 +1,6 @@
+{
+  "dbPath": "mongodb://localhost/ebao",
+  "port": 9999,
+  "QiniuAK": "xk7z1la6_n409k5XrxUcNXOd7jDimb7hxWk8ZNF6",
+  "QiniuSK": "sEYzwRksMSePL5QvecspHJqs7KJogNrgZEZsj_0n"
+}
