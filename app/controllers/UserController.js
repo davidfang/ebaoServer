@@ -1,11 +1,10 @@
 function UserController() {
     const User = require('../../schema/UserSchema');
+    const MailService = require('../services/MailService');
 
     this.checkRegisterInfo = function (req, res) {
         const mail = req.params.mail;
         const username = req.params.username;
-
-        console.log('mail', mail);
 
         if (mail) {
             User.findOne({
@@ -52,6 +51,12 @@ function UserController() {
                 });
             });
         }
+    };
+
+    this.sendVerifyCode = function (req, res) {
+        const mail = req.params.mail;
+
+        MailService.sendMail(mail, res);
     };
 
     this.register = function (req, res) {

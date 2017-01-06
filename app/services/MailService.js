@@ -1,5 +1,6 @@
 "use strict";
 const mailer = require('nodemailer');
+const User = require('../../schema/UserSchema');
 
 const smtpTransport = mailer.createTransport("SMTP",{
     host: "smtp.yeah.net",
@@ -11,7 +12,7 @@ const smtpTransport = mailer.createTransport("SMTP",{
     }
 });
 
-module.exports.sendMail = function (userId, mailAddress) {
+module.exports.sendMail = function (mail, res) {
     let verifyCode = '';
     for (let i = 0; i < 6; i++) {
         verifyCode += Math.floor(Math.random() * 10);
@@ -19,8 +20,8 @@ module.exports.sendMail = function (userId, mailAddress) {
 
     const mailOptions = {
         from: "fdjiangwu <fdjiangwu@yeah.net>",
-        to: mailAddress,
-        subject: "验证码 from ebao",
+        to: mail,
+        subject: "ebao验证码",
         html: "您好!您的验证码是<b>" + verifyCode + "</b>,请妥善保管!"
     };
 
@@ -30,6 +31,17 @@ module.exports.sendMail = function (userId, mailAddress) {
         } else {
             console.log("Message sent: " + response.message);
             //验证码存存数据库操作
+            let user = new User({
+                mail: mail,
+                verifyCode: verifyCode
+            });
+
+            user.save().then((newUserInfo) => {
+                res.send({
+                    status: true,
+                    result: newUserInfo
+                });
+            });
         }
         
         smtpTransport.close();

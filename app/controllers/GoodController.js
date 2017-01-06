@@ -1,10 +1,7 @@
 function GoodController() {
     var Good = require('../../schema/GoodSchema');
-    var MailService = require('../services/MailService');
 
     this.getGoods = function (req, res) {
-        MailService.sendMail('1', '770619764@qq.com');
-
         Good.find({}, function (error, result) {
             if (error) {
                 return res.send({
