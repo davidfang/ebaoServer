@@ -8,8 +8,7 @@ module.exports = (function () {
         },
         username: {
             unique: true,
-            type: String,
-            default: Date.now().toString()
+            type: String
         },
         password: String,
         avatar: String,

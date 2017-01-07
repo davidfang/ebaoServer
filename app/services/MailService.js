@@ -1,5 +1,6 @@
 "use strict";
 const mailer = require('nodemailer');
+const Promise = require('bluebird');
 const User = require('../../schema/UserSchema');
 
 const smtpTransport = mailer.createTransport("SMTP",{
@@ -12,7 +13,7 @@ const smtpTransport = mailer.createTransport("SMTP",{
     }
 });
 
-module.exports.sendMail = function (mail, res) {
+module.exports.sendEmail = function (mail, username) {
     let verifyCode = '';
     for (let i = 0; i < 6; i++) {
         verifyCode += Math.floor(Math.random() * 10);
@@ -25,25 +26,23 @@ module.exports.sendMail = function (mail, res) {
         html: "您好!您的验证码是<b>" + verifyCode + "</b>,请妥善保管!"
     };
 
-    smtpTransport.sendMail(mailOptions, function(error, response) {
-        if (error) {
-            console.log(error);
-        } else {
-            console.log("Message sent: " + response.message);
-            //验证码存存数据库操作
-            let user = new User({
-                mail: mail,
-                verifyCode: verifyCode
-            });
-
-            user.save().then((newUserInfo) => {
-                res.send({
-                    status: true,
-                    result: newUserInfo
+    return new Promise(function (resolve, reject) {
+        smtpTransport.sendMail(mailOptions, function(error, response) {
+            if (error) {
+                reject(error);
+            } else {
+                let user = new User({
+                    mail: mail,
+                    username: username,
+                    verifyCode: verifyCode
                 });
-            });
-        }
-        
-        smtpTransport.close();
-    });
+
+                user.save().then((newUserInfo) => {
+                    resolve(newUserInfo);
+                });
+            }
+
+            smtpTransport.close();
+        });
+    })
 };

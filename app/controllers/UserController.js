@@ -55,8 +55,14 @@ function UserController() {
 
     this.sendVerifyCode = function (req, res) {
         const mail = req.params.mail;
+        const username = req.params.username;
 
-        MailService.sendMail(mail, res);
+        MailService.sendEmail(mail, username).then((data) => {
+            res.send({
+                status: true,
+                result: '验证码已经发送到您的邮箱'
+            });
+        });
     };
 
     this.register = function (req, res) {
@@ -94,6 +100,21 @@ function UserController() {
                 error: error
             });
         });
+    };
+
+    this.getUserByName = function (req, res) {
+        let username = req.params.username;
+
+        User.findOne({
+            username: username
+        }).then((data) => {
+            if (data) {
+                res.send({
+                    status: true,
+                    result: data
+                });
+            }
+        })
     };
 
     return this;
