@@ -13,7 +13,7 @@ const smtpTransport = mailer.createTransport("SMTP",{
     }
 });
 
-module.exports.sendEmail = function (mail, username) {
+module.exports.sendEmail = function (mail) {
     let verifyCode = '';
     for (let i = 0; i < 6; i++) {
         verifyCode += Math.floor(Math.random() * 10);
@@ -31,15 +31,7 @@ module.exports.sendEmail = function (mail, username) {
             if (error) {
                 reject(error);
             } else {
-                let user = new User({
-                    mail: mail,
-                    username: username,
-                    verifyCode: verifyCode
-                });
-
-                user.save().then((newUserInfo) => {
-                    resolve(newUserInfo);
-                });
+                resolve(verifyCode);
             }
 
             smtpTransport.close();

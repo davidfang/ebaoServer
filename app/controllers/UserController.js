@@ -2,77 +2,62 @@ function UserController() {
     const User = require('../../schema/UserSchema');
     const MailService = require('../services/MailService');
 
-    this.checkRegisterInfo = function (req, res) {
-        const mail = req.params.mail;
-        const username = req.params.username;
+    this.getUserByName = function (req, res) {
+        let username = req.params.username;
 
-        if (mail) {
-            User.findOne({
-                mail: mail
-            }).then((userInfo) => {
-                if (userInfo) {
-                    res.send({
-                        status: false,
-                        result: "该邮箱已经被注册"
-                    });
-                } else {
-                    res.send({
-                        status: true,
-                        result: "邮箱可用"
-                    });
-                }
-            }).catch((error) => {
-                return res.send({
-                    status: false,
-                    error: error
+        User.findOne({
+            username: username
+        }).then((data) => {
+            if (data) {
+                res.send({
+                    status: true,
+                    result: data
                 });
-            });
-        }
+            } else {
+                res.send({
+                    status: false
+                });
+            }
+        })
+    };
 
-        if (username) {
-            User.findOne({
-                username: username
-            }).then((userInfo) => {
-                if (userInfo) {
-                    res.send({
-                        status: false,
-                        result: "该用户名已经被注册"
-                    });
-                } else {
-                    res.send({
-                        status: true,
-                        result: "用户名可用"
-                    });
-                }
-            }).catch((error) => {
-                return res.send({
-                    status: false,
-                    error: error
+    this.getUserByMail = function (req, res) {
+        let address = req.params.address;
+
+        User.findOne({
+            mail: address
+        }).then((data) => {
+            if (data) {
+                res.send({
+                    status: true,
+                    result: data
+                })
+            } else {
+                res.send({
+                    status: false
                 });
-            });
-        }
+            }
+        })
     };
 
     this.sendVerifyCode = function (req, res) {
         const mail = req.params.mail;
-        const username = req.params.username;
 
-        MailService.sendEmail(mail, username).then((data) => {
+        MailService.sendEmail(mail).then((verifyCode) => {
             res.send({
                 status: true,
-                result: '验证码已经发送到您的邮箱'
+                result: verifyCode
             });
         });
     };
 
     this.register = function (req, res) {
-        const mail = req.params.mail;
-        const username = req.params.username;
-        const password = req.params.password;
-        const verifyCode = req.params.verifyCode;
-
+        const params = JSON.parse(req.body);
+        const mail = params.mail;
+        const username = params.username;
+        
         User.find().where('mail', mail).or([{username: username}]).then((userInfo) => {
-            if (userInfo) {
+            if (userInfo && userInfo.length) {
                 res.send({
                     status: false,
                     result: "该邮箱或用户名已经被注册"
@@ -80,13 +65,7 @@ function UserController() {
                 return;
             }
 
-            const user = new User({
-                mail: mail,
-                username: username,
-                password: password,
-                verifyCode: verifyCode
-            });
-            return user.save();
+            return new User(params).save();
         }).then((newUserInfo) => {
             if (newUserInfo) {
                 res.send({
@@ -100,21 +79,6 @@ function UserController() {
                 error: error
             });
         });
-    };
-
-    this.getUserByName = function (req, res) {
-        let username = req.params.username;
-
-        User.findOne({
-            username: username
-        }).then((data) => {
-            if (data) {
-                res.send({
-                    status: true,
-                    result: data
-                });
-            }
-        })
     };
 
     return this;
