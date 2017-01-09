@@ -31,13 +31,28 @@ function UserController() {
                 res.send({
                     status: true,
                     result: data
-                })
+                });
             } else {
                 res.send({
                     status: false
                 });
             }
         })
+    };
+
+    this.getUser = function (req, res) {
+        User.findOne(req.params).then((user) => {
+            if (user) {
+                res.send({
+                    status: true,
+                    result: user
+                });
+            } else {
+                res.send({
+                    status: false
+                })
+            }
+        });
     };
 
     this.sendVerifyCode = function (req, res) {
