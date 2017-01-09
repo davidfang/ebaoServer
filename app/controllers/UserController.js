@@ -81,6 +81,32 @@ function UserController() {
         });
     };
 
+    this.updatePassword = function (req, res) {
+        const params = JSON.parse(req.body);
+        const userId = params.userId;
+        const password = params.password;
+
+        User.findByIdAndUpdate(userId, {
+            password: password
+        }).then((data) => {
+            if (data) {
+                res.send({
+                    status: true,
+                    result: data
+                })
+            } else {
+                res.send({
+                    status: false
+                })
+            }
+        }).catch((error) => {
+            res.send({
+                status: false,
+                error: error
+            })
+        });
+    };
+
     return this;
 }
 

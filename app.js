@@ -23,6 +23,7 @@ server.put('/user', UserController.register);
 server.get('/user/code', UserController.sendVerifyCode);
 server.get('/user/name/:username', UserController.getUserByName);
 server.get('/user/mail', UserController.getUserByMail);
+server.post('/user/password', UserController.updatePassword);
 
 //good
 server.put('/good', GoodController.createGood);
