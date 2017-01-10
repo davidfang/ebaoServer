@@ -122,6 +122,32 @@ function UserController() {
         });
     };
 
+    this.updateAvatar = function (req, res) {
+        const params = JSON.parse(req.body);
+        const userId = params.userId;
+        const avatar = params.avatar;
+
+        User.findByIdAndUpdate(userId, {
+            avatar: avatar
+        }).then((data) => {
+            if (data) {
+                res.send({
+                    status: true,
+                    result: data
+                })
+            } else {
+                res.send({
+                    status: false
+                })
+            }
+        }).catch((error) => {
+            res.send({
+                status: false,
+                error: error
+            })
+        });
+    };
+
     return this;
 }
 

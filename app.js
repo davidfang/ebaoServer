@@ -25,6 +25,7 @@ server.get('/user/name/:username', UserController.getUserByName);
 server.get('/user/mail', UserController.getUserByMail);
 server.get('/user', UserController.getUser);
 server.post('/user/password', UserController.updatePassword);
+server.post('/user/avatar', UserController.updateAvatar);
 
 //good
 server.put('/good', GoodController.createGood);
