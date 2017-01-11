@@ -148,6 +148,33 @@ function UserController() {
         });
     };
 
+    this.updateGender = function (req, res) {
+        const params = JSON.parse(req.body);
+        const userId = params.userId;
+        const gender = params.gender;
+
+        User.findByIdAndUpdate(userId, {
+            gender: gender
+        }).then((data) => {
+            console.log(data);
+            if (data) {
+                res.send({
+                    status: true,
+                    result: data
+                })
+            } else {
+                res.send({
+                    status: false
+                })
+            }
+        }).catch((error) => {
+            res.send({
+                status: false,
+                error: error
+            })
+        });
+    };
+
     return this;
 }
 
