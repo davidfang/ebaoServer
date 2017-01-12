@@ -1,5 +1,6 @@
 module.exports = (function () {
     const mongoose = require('../db').mongoose;
+    mongoose.Promise = require('bluebird');
     const schema = {
         title: String,
         desc: String,
