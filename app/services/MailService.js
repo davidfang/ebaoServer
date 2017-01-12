@@ -1,7 +1,6 @@
 "use strict";
 const mailer = require('nodemailer');
 const Promise = require('bluebird');
-const User = require('../../schema/UserSchema');
 
 const smtpTransport = mailer.createTransport("SMTP",{
     host: "smtp.yeah.net",
