@@ -63,6 +63,11 @@ function UserController() {
                 status: true,
                 result: verifyCode
             });
+        }).catch((error) => {
+            res.send({
+                status: false,
+                result: error
+            });
         });
     };
 
