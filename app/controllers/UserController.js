@@ -72,10 +72,9 @@ function UserController() {
     };
 
     this.register = function (req, res) {
-        const params = JSON.parse(req.body);
-        const mail = params.mail;
-        const username = params.username;
-        
+        const mail = req.body.mail;
+        const username = req.body.username;
+
         User.find().where('mail', mail).or([{username: username}]).then((userInfo) => {
             if (userInfo && userInfo.length) {
                 res.send({
@@ -85,7 +84,7 @@ function UserController() {
                 return;
             }
 
-            return new User(params).save();
+            return new User(req.body).save();
         }).then((newUserInfo) => {
             if (newUserInfo) {
                 res.send({

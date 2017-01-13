@@ -9,18 +9,17 @@ function AddressController() {
         const telephone = req.params.telephone;
         const address = req.params.address;
         const isDefault = req.params.isDefault;
-
         let na = {};
 
         Address.findOne({
             name: name,
             telephone: telephone,
             address: address
-        }).then((user) => {
-            if (user) {
+        }).then((address) => {
+            if (address) {
                 res.send({
                     status: false,
-                    result: user
+                    result: address
                 });
 
                 return Promise.reject();
@@ -33,15 +32,8 @@ function AddressController() {
                 isDefault: isDefault
             }).save();
         }).then((newAddress) => {
-            na = newAddress;
             if (newAddress) {
-                res.send({
-                    status: true,
-                    result: newAddress
-                });
-
-                console.log('userId', userId);
-                
+                na = newAddress;
                 return User.findById(userId);
             } else {
                 res.send({
@@ -51,24 +43,21 @@ function AddressController() {
                 return Promise.reject();
             }
         }).then((user) => {
-            let addresses = [];
-            if (!user.addresses) {
-                addresses = [na._id];
-            } else {
-                addresses = user.addresses.push(na._id);
-            }
+            user.addresses.push(na._id);
 
-            console.log(addresses);
-
-            if (user) {
-                return User.update({
-                    _id: user._id
-                }, {
-                    addresses: addresses
-                });
-            }
+            return User.update({
+                _id: user._id
+            }, {
+                addresses: user.addresses
+            });
         }).then((newUser) => {
-            console.log(newUser);
+            res.send({
+                status: true,
+                result: {
+                    address: na,
+                    user: newUser
+                }
+            });
         }).catch((error) => {
 
         })
