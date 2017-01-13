@@ -1,23 +1,24 @@
-module.exports = (function () {
-    const mongoose = require('../db').mongoose;
-    mongoose.Promise = require('bluebird');
-    const schema = {
-        mail: {
-            unique: true,
-            type: String
-        },
-        username: {
-            unique: true,
-            type: String
-        },
-        password: String,
-        avatar: String,
-        gender: String,
-        verifyCode: String
-    };
+const mongoose = require('../db').mongoose;
 
-    const collectionName = 'users';
-    const UserSchema = mongoose.Schema(schema);
+module.exports = new mongoose.Schema({
+    mail: {
+        unique: true,
+        type: String
+    },
+    username: {
+        unique: true,
+        type: String
+    },
+    password: String,
+    avatar: String,
+    gender: String,
+    verifyCode: String,
 
-    return mongoose.model(collectionName, UserSchema);
-})();
+    //管联字段
+    addresses: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Address'
+        }
+    ]
+});

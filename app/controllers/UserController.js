@@ -1,5 +1,5 @@
 function UserController() {
-    const User = require('../../schema/UserSchema');
+    const User = require('../models/User');
     const MailService = require('../services/MailService');
 
     this.getUserByName = function (req, res) {
@@ -161,7 +161,6 @@ function UserController() {
         User.findByIdAndUpdate(userId, {
             gender: gender
         }).then((data) => {
-            console.log(data);
             if (data) {
                 res.send({
                     status: true,
