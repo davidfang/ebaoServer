@@ -35,6 +35,7 @@ server.get('/goods', GoodController.getGoods);
 
 //address
 server.put('/address', AddressController.addAddress);
+server.post('/address', AddressController.updateAddress);
 
 server.listen(config.port, function () {
     console.log('%s listening at %s', server.name, server.url);
