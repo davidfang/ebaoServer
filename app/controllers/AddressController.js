@@ -7,8 +7,10 @@ function AddressController() {
         const userId = req.params.userId;
         const name = req.params.name;
         const telephone = req.params.telephone;
-        const address = req.params.address;
+        const area = req.params.area;
+        const detail = req.params.detail;
         const isDefault = req.params.isDefault;
+        const address = area.join('') + detail;
         let na = {};
 
         Address.findOne({
@@ -28,6 +30,8 @@ function AddressController() {
             return new Address({
                 name: name,
                 telephone: telephone,
+                area: area,
+                detail: detail,
                 address: address,
                 isDefault: isDefault
             }).save();
