@@ -15,11 +15,11 @@ function AddressController() {
             name: name,
             telephone: telephone,
             address: address
-        }).then((address) => {
-            if (address) {
+        }).then((addressHasSaved) => {
+            if (addressHasSaved) {
                 res.send({
                     status: false,
-                    result: address
+                    result: addressHasSaved
                 });
 
                 return Promise.reject();
