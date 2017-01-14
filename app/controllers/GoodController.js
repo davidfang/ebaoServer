@@ -1,5 +1,5 @@
 function GoodController() {
-    var Good = require('../../schema/GoodSchema');
+    var Good = require('../models/Good');
 
     this.getGoods = function (req, res) {
         Good.find({}, function (error, result) {
@@ -18,32 +18,24 @@ function GoodController() {
         });
     };
 
-    this.createGood = function (req, res) {
-        var body = JSON.parse(req.body);
-        var title = body.title;
-        var desc = body.desc;
-        var url = body.url;
-        var price = body.price;
-
-        Good.create({
-            title: title,
-            desc: desc,
-            url: url,
-            price: price
-        }, function (error, result) {
-            if (error) {
-                return res.send({
-                    'error': error,
-                    'status': false
+    this.addGood = function (req, res) {
+        new Good(JSON.parse(req.body)).save().then((newGood) => {
+            if (newGood) {
+                res.send({
+                    status: true,
+                    result: newGood
+                });
+            } else {
+                res.send({
+                    status: false
                 });
             }
-            else {
-                return res.send({
-                    'result': result,
-                    'status': true
-                });
-            }
-        });
+        }).catch((error) => {
+            res.send({
+                status: false,
+                result: error
+            });
+        })
     };
 
     return this;

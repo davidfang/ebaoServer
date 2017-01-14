@@ -30,7 +30,7 @@ server.post('/user/avatar', UserController.updateAvatar);
 server.post('/user/gender', UserController.updateGender);
 
 //good
-server.put('/good', GoodController.createGood);
+server.put('/good', GoodController.addGood);
 server.get('/goods', GoodController.getGoods);
 
 //address
