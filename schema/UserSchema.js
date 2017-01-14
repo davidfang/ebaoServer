@@ -12,7 +12,6 @@ module.exports = new mongoose.Schema({
     password: String,
     avatar: String,
     gender: String,
-    verifyCode: String,
 
     //管联字段
     addresses: [

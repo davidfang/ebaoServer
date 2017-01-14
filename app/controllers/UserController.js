@@ -1,17 +1,18 @@
 function UserController() {
     const User = require('../models/User');
     const MailService = require('../services/MailService');
+    const Promise = require('bluebird');
 
     this.getUserByName = function (req, res) {
         let username = req.params.username;
 
         User.findOne({
             username: username
-        }).then((data) => {
-            if (data) {
+        }).populate('addresses').then((user) => {
+            if (user) {
                 res.send({
                     status: true,
-                    result: data
+                    result: user
                 });
             } else {
                 res.send({
@@ -26,11 +27,11 @@ function UserController() {
 
         User.findOne({
             mail: address
-        }).then((data) => {
-            if (data) {
+        }).then((user) => {
+            if (user) {
                 res.send({
                     status: true,
-                    result: data
+                    result: user
                 });
             } else {
                 res.send({
@@ -81,7 +82,7 @@ function UserController() {
                     status: false,
                     result: "该邮箱或用户名已经被注册"
                 });
-                return;
+                return Promise.reject();
             }
 
             return new User(req.body).save();
@@ -107,11 +108,11 @@ function UserController() {
 
         User.findByIdAndUpdate(userId, {
             password: password
-        }).then((data) => {
-            if (data) {
+        }).then((user) => {
+            if (user) {
                 res.send({
                     status: true,
-                    result: data
+                    result: user
                 })
             } else {
                 res.send({
@@ -133,11 +134,11 @@ function UserController() {
 
         User.findByIdAndUpdate(userId, {
             avatar: avatar
-        }).then((data) => {
-            if (data) {
+        }).then((user) => {
+            if (user) {
                 res.send({
                     status: true,
-                    result: data
+                    result: user
                 })
             } else {
                 res.send({
@@ -159,11 +160,11 @@ function UserController() {
 
         User.findByIdAndUpdate(userId, {
             gender: gender
-        }).then((data) => {
-            if (data) {
+        }).then((user) => {
+            if (user) {
                 res.send({
                     status: true,
-                    result: data
+                    result: user
                 })
             } else {
                 res.send({
