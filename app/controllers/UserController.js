@@ -42,7 +42,7 @@ function UserController() {
     };
 
     this.getUser = function (req, res) {
-        User.findOne(req.params).then((user) => {
+        User.findOne(req.params).populate('addresses').then((user) => {
             if (user) {
                 res.send({
                     status: true,
