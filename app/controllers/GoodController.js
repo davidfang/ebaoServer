@@ -24,12 +24,14 @@ function GoodController() {
         const desc = body.desc;
         const url = body.url;
         const price = body.price;
-        const publisher = body.publisher;
+        const publisherId = body.publisher;
+        let publisher = {};
 
         User.findOne({
-            _id: publisher
+            _id: publisherId
         }).then((user) => {
             if (user) {
+                publisher = user;
                 return new Good({
                     title: title,
                     desc: desc,
@@ -46,10 +48,16 @@ function GoodController() {
             }
         }).then((newGood) => {
             if (newGood) {
-                console.log('newGood', newGood);
                 res.send({
                     status: true,
-                    result: newGood
+                    result: {
+                        good: newGood,
+                        publisher: publisher
+                    }
+                });
+            } else {
+                res.send({
+                    status: false 
                 });
             }
         }).catch((error) => {
