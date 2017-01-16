@@ -4,38 +4,18 @@ function AddressController() {
     const Promise = require('bluebird');
 
     this.addAddress = function (req, res) {
-        const userId = req.params.userId;
-        const name = req.params.name;
-        const telephone = req.params.telephone;
-        const area = req.params.area;
-        const detail = req.params.detail;
-        const isDefault = req.params.isDefault;
+        const {userId, name, telephone, area, detail, isDefault} = JSON.parse(req.body);
         const address = area.join('') + detail;
         let na = {};
 
-        Address.findOne({
+        new Address({
             name: name,
             telephone: telephone,
-            address: address
-        }).then((addressHasSaved) => {
-            if (addressHasSaved) {
-                res.send({
-                    status: false,
-                    result: addressHasSaved
-                });
-
-                return Promise.reject();
-            }
-
-            return new Address({
-                name: name,
-                telephone: telephone,
-                area: area,
-                detail: detail,
-                address: address,
-                isDefault: isDefault
-            }).save();
-        }).then((newAddress) => {
+            area: area,
+            detail: detail,
+            address: address,
+            isDefault: isDefault
+        }).save().then((newAddress) => {
             if (newAddress) {
                 na = newAddress;
                 return User.findById(userId);
@@ -63,7 +43,10 @@ function AddressController() {
                 }
             });
         }).catch((error) => {
-
+            res.send({
+                status: false,
+                result: error
+            });
         })
     };
 
