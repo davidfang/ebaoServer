@@ -4,7 +4,31 @@ function CommentController() {
     const Good = require('../models/Good');
     const Promise = require('bluebird');
 
-    this.addComment = function (req, res) {
+    this.getByGoodId = function (req, res) {
+        const {goodId} = req.params;
+
+        Comment.find({
+            goodId: goodId
+        }).populate(['commentator', 'goodId']).then((comments) => {
+            if (comments && comments.length) {
+                res.send({
+                    status: true,
+                    result: comments
+                });
+            } else {
+                res.send({
+                    status: false
+                });
+            }
+        }).catch((error) => {
+            res.send({
+                status: false,
+                result: error
+            });
+        });
+    };
+
+    this.add = function (req, res) {
         const {isUp, content, userId, goodId} = req.params;
         let user = null, good = null, comment = null;
 
@@ -79,6 +103,10 @@ function CommentController() {
                 result: error
             });
         })
+    };
+    
+    this.update = function (req, res) {
+
     };
 
     return this;

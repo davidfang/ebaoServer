@@ -39,7 +39,9 @@ server.put('/address', AddressController.addAddress);
 server.post('/address', AddressController.updateAddress);
 
 //comment
-server.put('/comment', CommentController.addComment);
+server.get('/comments', CommentController.getByGoodId);
+server.put('/comment', CommentController.add);
+server.post('/comment', CommentController.update);
 
 server.listen(config.port, function () {
     console.log('%s listening at %s', server.name, server.url);
