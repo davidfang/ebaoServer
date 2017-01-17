@@ -13,7 +13,7 @@ module.exports = new mongoose.Schema({
     avatar: String,
     gender: String,
 
-    //管联字段
+    //关联字段,地址列表
     addresses: [
         {
             type: mongoose.Schema.Types.ObjectId,
