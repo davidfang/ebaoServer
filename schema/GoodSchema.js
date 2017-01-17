@@ -10,5 +10,13 @@ module.exports = new mongoose.Schema({
     publisher: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
-    }
+    },
+
+    //关联字段,评论列表
+    comments: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Comment'
+        }
+    ]
 });

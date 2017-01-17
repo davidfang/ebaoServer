@@ -3,6 +3,7 @@ const config = require('./config');
 const UserController = require('./app/controllers/UserController');
 const GoodController = require('./app/controllers/GoodController');
 const AddressController = require('./app/controllers/AddressController');
+const CommentController = require('./app/controllers/CommentController');
 
 const server = restify.createServer({
     name: 'ebao-react-native-app'
@@ -36,6 +37,9 @@ server.get('/goods', GoodController.getGoods);
 //address
 server.put('/address', AddressController.addAddress);
 server.post('/address', AddressController.updateAddress);
+
+//comment
+server.put('/comment', CommentController.addComment);
 
 server.listen(config.port, function () {
     console.log('%s listening at %s', server.name, server.url);
