@@ -5,10 +5,18 @@ module.exports = new mongoose.Schema({
         type: Boolean,
         default: false
     },
-    content: {
-        type: Array,
-        default: []
-    },
+    content: [
+        {
+            body: {
+                type: String,
+                default: ''
+            },
+            time: {
+                type: Date,
+                default: new Date()
+            }
+        }
+    ],
 
     //关联字段,评论者
     commentator: {
