@@ -112,7 +112,83 @@ function CommentController() {
     };
     
     this.update = function (req, res) {
+        const {isUp, content, userId, goodId} = req.params;
+        let user = null, good = null, comment = null;
 
+        User.findOne({
+            _id: userId
+        }).then((userHasSaved) => {
+            if (userHasSaved) {
+                user = userHasSaved;
+
+                return Good.findOne({
+                    _id: goodId
+                });
+            } else {
+                res.send({
+                    status: false
+                });
+
+                return Promise.reject();
+            }
+        }).then((goodHasSaved) => {
+            if (goodHasSaved) {
+                good = goodHasSaved;
+
+                return Comment.findOne({
+                    commentator: userId,
+                    goodId: goodId
+                });
+            } else {
+                res.send({
+                    status: false
+                });
+
+                return Promise.reject();
+            }
+        }).then((commentHasSaved) => {
+            if (commentHasSaved) {
+                comment = commentHasSaved;
+
+                let commentJson = {
+                    isUp: isUp
+                };
+                if (content) {
+                    commentHasSaved.content.push(content);
+                    commentJson.content = commentHasSaved.content;
+                }
+
+                return Comment.update({
+                    _id: commentHasSaved._id
+                }, commentJson);
+            } else {
+                res.send({
+                    status: false
+                });
+
+                return Promise.reject();
+            }
+        }).then((newComment) => {
+            if (newComment) {
+                res.send({
+                    status: true,
+                    result: {
+                        comment: comment,
+                        user: user,
+                        good: good
+                    }
+                });
+            } else {
+                res.send({
+                    status: false
+                });
+            }
+        }).catch((error) => {
+            res.send({
+                status: false,
+                result: error
+            });
+        })
     };
 
     return this;
