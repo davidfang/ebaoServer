@@ -6,8 +6,8 @@ module.exports = new mongoose.Schema({
         default: false
     },
     content: {
-        type: String,
-        default: ''
+        type: Array,
+        default: []
     },
 
     //关联字段,评论者

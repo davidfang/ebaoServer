@@ -39,7 +39,7 @@ server.put('/address', AddressController.addAddress);
 server.post('/address', AddressController.updateAddress);
 
 //comment
-server.get('/comments', CommentController.getByGoodId);
+server.get('/comment', CommentController.getByUserIdAndGoodId);
 server.put('/comment', CommentController.add);
 server.post('/comment', CommentController.update);
 

@@ -4,20 +4,22 @@ function CommentController() {
     const Good = require('../models/Good');
     const Promise = require('bluebird');
 
-    this.getByGoodId = function (req, res) {
-        const {goodId} = req.params;
+    this.getByUserIdAndGoodId = function (req, res) {
+        const {userId, goodId} = req.params;
 
-        Comment.find({
+        Comment.findOne({
+            commentator: userId,
             goodId: goodId
-        }).populate(['commentator', 'goodId']).then((comments) => {
-            if (comments && comments.length) {
+        }).populate(['commentator', 'goodId']).then((comment) => {
+            if (comment) {
                 res.send({
                     status: true,
-                    result: comments
+                    result: comment
                 });
             } else {
                 res.send({
-                    status: false
+                    status: false,
+                    result: null
                 });
             }
         }).catch((error) => {
@@ -29,7 +31,7 @@ function CommentController() {
     };
 
     this.add = function (req, res) {
-        const {isUp, content, userId, goodId} = req.params;
+        const {isUp, content, userId, goodId} = JSON.parse(req.body);
         let user = null, good = null, comment = null;
 
         User.findOne({
@@ -52,12 +54,16 @@ function CommentController() {
             if (goodHasSaved) {
                 good = goodHasSaved;
 
-                return new Comment({
+                let commentJson = {
                     isUp: isUp,
-                    content: content,
                     commentator: user._id,
                     goodId: good._id
-                }).save();
+                };
+                if (content) {
+                    commentJson.content = [content];
+                }
+
+                return new Comment(commentJson).save();
             } else {
                 res.send({
                     status: false
@@ -102,7 +108,7 @@ function CommentController() {
                 status: false,
                 result: error
             });
-        })
+        });
     };
     
     this.update = function (req, res) {
