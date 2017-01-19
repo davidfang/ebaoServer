@@ -31,7 +31,7 @@ function CommentController() {
     };
 
     this.add = function (req, res) {
-        const {isUp, content, userId, goodId} = req.params;
+        const {isUp, content, userId, goodId} = JSON.parse(req.body);
         let user = null, good = null, comment = null;
 
         User.findOne({
@@ -114,7 +114,7 @@ function CommentController() {
     };
     
     this.update = function (req, res) {
-        const {isUp, content, userId, goodId} = req.params;
+        const {isUp, content, userId, goodId} = JSON.parse(req.body);
         let user = null, good = null, comment = null;
 
         User.findOne({

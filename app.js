@@ -33,6 +33,7 @@ server.post('/user/gender', UserController.updateGender);
 //good
 server.put('/good', GoodController.addGood);
 server.get('/goods', GoodController.getGoods);
+server.get('/good', GoodController.getGoodById);
 
 //address
 server.put('/address', AddressController.addAddress);

@@ -4,7 +4,7 @@ function GoodController() {
     const Promise = require('bluebird');
 
     this.getGoods = function (req, res) {
-        Good.find({}).populate('publisher').then((goods) => {
+        Good.find({}).populate(['publisher', 'comments']).then((goods) => {
             if (goods) {
                 res.send({
                     status: true,
@@ -16,6 +16,23 @@ function GoodController() {
                 })
             }
         });
+    };
+
+    this.getGoodById = function (req, res) {
+        Good.findOne({
+            _id: req.params.goodId
+        }).populate(['publisher', 'comments']).then((good) => {
+            if (good) {
+                res.send({
+                    status: true,
+                    result: good
+                });
+            } else {
+                res.send({
+                    status: false
+                })
+            }
+        })
     };
 
     this.addGood = function (req, res) {
