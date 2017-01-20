@@ -41,6 +41,7 @@ server.post('/address', AddressController.updateAddress);
 
 //comment
 server.get('/comment', CommentController.getByUserIdAndGoodId);
+server.get('/comments', CommentController.getAllByGoodId);
 server.put('/comment', CommentController.add);
 server.post('/comment', CommentController.update);
 

@@ -30,6 +30,58 @@ function CommentController() {
         });
     };
 
+    this.getAllByGoodId = function (req, res) {
+        const {goodId} = req.params;
+
+        Good.findOne({
+            _id: goodId
+        }).populate('comments').then((good) => {
+            if (good && good.comments && good.comments.length) {
+                return new Promise(function (resolve, reject) {
+                    let mergedComments = [];
+                    for (let i = 0; i < good.comments.length; i++) {
+                        Comment.findOne({
+                            _id: good.comments[i]._id
+                        }).populate(['commentator', 'goodId']).then((comment) => {
+                            if (comment) {
+                                for (let j = 0; j < comment.content.length; j++) {
+                                    mergedComments.push({
+                                        user: {
+                                            name: comment.commentator.username,
+                                            avatar: comment.commentator.avatar
+                                        },
+                                        content: comment.content[j]
+                                    });
+                                }
+                            }
+                            if (i == good.comments.length - 1) {
+                                resolve(mergedComments);
+                            }
+                        }).catch((error) => {
+                            reject(error);
+                        })
+                    }
+                });
+            }
+        }).then((comments) => {
+            if (comments) {
+                res.send({
+                    status: true,
+                    result: comments
+                });
+            } else {
+                res.send({
+                    status: false
+                })
+            }
+        }).catch((error) => {
+            res.send({
+                status: false,
+                result: error
+            })
+        })
+    };
+
     this.add = function (req, res) {
         const {isUp, content, userId, goodId} = JSON.parse(req.body);
         let user = null, good = null, comment = null;
