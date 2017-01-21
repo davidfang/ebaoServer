@@ -4,8 +4,32 @@ function CartController() {
     const Good = require('../models/Good');
     const Promise = require('bluebird');
 
+    this.getByUserIdAndGoodId = function (req, res) {
+        const {userId, goodId} = req.params;
+        Cart.findOne({
+            buyer: userId,
+            goodId: goodId
+        }).then((cart) => {
+            if (cart) {
+                res.send({
+                    status: true,
+                    result: cart
+                });
+            } else {
+                res.send({
+                    status: false
+                });
+            }
+        }).catch((error) => {
+            res.send({
+                status: false,
+                result: error
+            });
+        })
+    };
+
     this.add = function (req, res) {
-        const {userId, goodId, count} = req.params;
+        const {userId, goodId, count} = JSON.parse(req.body);
         let user = null, good = null;
 
         User.findOne({
@@ -64,7 +88,7 @@ function CartController() {
     };
 
     this.update = function (req, res) {
-        const {userId, goodId, count} = req.params;
+        const {userId, goodId, count} = JSON.parse(req.body);
         let user = null, good = null;
 
         User.findOne({
