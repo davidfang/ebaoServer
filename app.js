@@ -48,6 +48,7 @@ server.post('/comment', CommentController.update);
 
 //cart
 server.put('/cart', CartController.add);
+server.post('/cart', CartController.update);
 
 server.listen(config.port, function () {
     console.log('%s listening at %s', server.name, server.url);
