@@ -6,6 +6,7 @@ function CartController() {
 
     this.getByUserIdAndGoodId = function (req, res) {
         const {userId, goodId} = req.params;
+
         Cart.findOne({
             buyer: userId,
             goodId: goodId
@@ -26,6 +27,31 @@ function CartController() {
                 result: error
             });
         })
+    };
+
+    this.getAllByUserId = function (req, res) {
+        const {userId} = req.params;
+
+        Cart.find({
+            buyer: userId
+        }).populate(['buyer', 'goodId']).then((carts) => {
+            if (carts && carts.length) {
+                res.send({
+                    status: true,
+                    result: carts
+                });
+            } else {
+                res.send({
+                    status: false,
+                    result: null
+                });
+            }
+        }).catch((error) => {
+            res.send({
+                status: false,
+                result: error
+            });
+        });
     };
 
     this.add = function (req, res) {
@@ -119,7 +145,8 @@ function CartController() {
                 });
             } else {
                 res.send({
-                    status: false
+                    status: false,
+                    result: null
                 });
 
                 return Promise.reject();
@@ -136,7 +163,8 @@ function CartController() {
                 });
             } else {
                 res.send({
-                    status: false
+                    status: false,
+                    result: null
                 });
             }
         }).catch((error) => {

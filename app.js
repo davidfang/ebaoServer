@@ -48,6 +48,7 @@ server.post('/comment', CommentController.update);
 
 //cart
 server.get('/cart', CartController.getByUserIdAndGoodId);
+server.get('/carts', CartController.getAllByUserId);
 server.put('/cart', CartController.add);
 server.post('/cart', CartController.update);
 
