@@ -69,7 +69,7 @@ function GoodController() {
                     status: true,
                     result: {
                         good: newGood,
-                        publisher: publisher
+                        user: publisher
                     }
                 });
             } else {
