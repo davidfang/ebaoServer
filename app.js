@@ -5,6 +5,7 @@ const GoodController = require('./app/controllers/GoodController');
 const AddressController = require('./app/controllers/AddressController');
 const CommentController = require('./app/controllers/CommentController');
 const CartController = require('./app/controllers/CartController');
+const OrderController = require('./app/controllers/OrderController');
 
 const server = restify.createServer({
     name: 'ebao-react-native-app'
@@ -52,6 +53,9 @@ server.get('/cart', CartController.getByUserIdAndGoodId);
 server.get('/carts', CartController.getAllByUserId);
 server.put('/cart', CartController.add);
 server.post('/cart', CartController.update);
+
+//order
+server.put('/order', OrderController.add);
 
 server.listen(config.port, function () {
     console.log('%s listening at %s', server.name, server.url);
