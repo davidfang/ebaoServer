@@ -9,5 +9,11 @@ module.exports = new mongoose.Schema({
     isDefault: {
         type: Boolean,
         default: false
+    },
+
+    //关联字段,用户
+    userId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
     }
 });

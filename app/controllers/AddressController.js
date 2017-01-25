@@ -3,6 +3,36 @@ function AddressController() {
     const User = require('../models/User');
     const Promise = require('bluebird');
 
+    this.getAddresses = function (req, res) {
+        Address.find(req.params).then((addresses) => {
+            if (addresses && addresses.length) {
+                let sortedAddresses = [];
+                for (let i = 0; i < addresses.length; i++) {
+                    if (addresses[i].isDefault) {
+                        sortedAddresses.unshift(addresses[i]);
+                    } else {
+                        sortedAddresses.push(addresses[i]);
+                    }
+                }
+
+                res.send({
+                    status: true,
+                    result: sortedAddresses
+                });
+            } else {
+                res.send({
+                    status: false,
+                    result: null
+                });
+            }
+        }).catch((error) => {
+            res.send({
+                status: false,
+                result: error
+            });
+        })
+    };
+
     this.addAddress = function (req, res) {
         const {userId, name, telephone, area, detail, isDefault} = JSON.parse(req.body);
         const address = area.join('') + detail;
@@ -14,7 +44,8 @@ function AddressController() {
             area: area,
             detail: detail,
             address: address,
-            isDefault: isDefault
+            isDefault: isDefault,
+            userId: userId
         }).save().then((newAddress) => {
             if (newAddress) {
                 na = newAddress;
