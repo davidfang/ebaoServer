@@ -40,7 +40,7 @@ server.get('/good', GoodController.getGoodById);
 //address
 server.get('/addresses', AddressController.getAddresses);
 server.put('/address', AddressController.add);
-server.post('/address', AddressController.updateAddress);
+server.post('/address', AddressController.update);
 
 //comment
 server.get('/comment', CommentController.getByUserIdAndGoodId);

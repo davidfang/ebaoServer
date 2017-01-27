@@ -81,7 +81,7 @@ function AddressController() {
         })
     };
 
-    this.updateAddress = function (req, res) {
+    this.update = function (req, res) {
         const {addressId, name, telephone, area, detail, isDefault, address} = JSON.parse(req.body);
 
         Address.findById(addressId).then((addressHasSaved) => {
