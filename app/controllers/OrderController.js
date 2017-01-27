@@ -21,7 +21,7 @@ function OrderController() {
         }).catch((error) => {
             res.send({
                 status: false,
-                resule: error
+                result: error
             })
         })
     };
