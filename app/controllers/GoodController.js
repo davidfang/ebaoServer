@@ -35,7 +35,7 @@ function GoodController() {
         })
     };
 
-    this.addGood = function (req, res) {
+    this.add = function (req, res) {
         const body = JSON.parse(req.body);
         const title = body.title;
         const desc = body.desc;

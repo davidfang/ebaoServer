@@ -33,13 +33,13 @@ server.post('/user/avatar', UserController.updateAvatar);
 server.post('/user/gender', UserController.updateGender);
 
 //good
-server.put('/good', GoodController.addGood);
+server.put('/good', GoodController.add);
 server.get('/goods', GoodController.getGoods);
 server.get('/good', GoodController.getGoodById);
 
 //address
 server.get('/addresses', AddressController.getAddresses);
-server.put('/address', AddressController.addAddress);
+server.put('/address', AddressController.add);
 server.post('/address', AddressController.updateAddress);
 
 //comment

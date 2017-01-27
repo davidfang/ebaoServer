@@ -33,7 +33,7 @@ function AddressController() {
         })
     };
 
-    this.addAddress = function (req, res) {
+    this.add = function (req, res) {
         const {userId, name, telephone, area, detail, isDefault} = JSON.parse(req.body);
         const address = area.join('') + detail;
         let na = {};
