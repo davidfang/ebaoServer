@@ -3,7 +3,7 @@ function UserController() {
     const MailService = require('../services/MailService');
     const Promise = require('bluebird');
 
-    this.getUserByName = function (req, res) {
+    this.getByName = function (req, res) {
         let username = req.params.username;
 
         User.findOne({

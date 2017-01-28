@@ -25,7 +25,7 @@ server.get(/^\/((.*)(\.)(.+))*$/, restify.serveStatic(
 //user
 server.put('/user', UserController.register);
 server.get('/user/code', UserController.sendVerifyCode);
-server.get('/user/name/:username', UserController.getUserByName);
+server.get('/user/name/:username', UserController.getByName);
 server.get('/user/mail', UserController.getUserByMail);
 server.get('/user', UserController.getUser);
 server.post('/user/password', UserController.updatePassword);
