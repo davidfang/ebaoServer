@@ -18,7 +18,7 @@ function GoodController() {
         });
     };
 
-    this.getGoodById = function (req, res) {
+    this.getById = function (req, res) {
         Good.findOne({
             _id: req.params.goodId
         }).populate(['publisher', 'comments']).then((good) => {
