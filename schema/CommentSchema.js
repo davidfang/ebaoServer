@@ -17,7 +17,6 @@ module.exports = new mongoose.Schema({
             }
         }
     ],
-
     //关联字段,评论者
     commentator: {
         type: mongoose.Schema.Types.ObjectId,
