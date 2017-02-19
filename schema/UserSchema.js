@@ -12,7 +12,6 @@ module.exports = new mongoose.Schema({
     password: String,
     avatar: String,
     gender: String,
-
     //关联字段,地址列表
     addresses: [
         {
