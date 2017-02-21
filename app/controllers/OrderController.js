@@ -22,7 +22,7 @@ function OrderController() {
             res.send({
                 status: false,
                 result: error
-            })
+            });
         })
     };
 
